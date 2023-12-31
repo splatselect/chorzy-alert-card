@@ -16,7 +16,7 @@ const stylesHtml = `
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
   font-family: "Roboto", sans-serif;
-  margin-bottom: 10px; /* Spacing between each alert */
+  margin-bottom: 2px; /* Spacing between each alert */
 }
 
 .custom-alert.alert-info {
@@ -55,6 +55,7 @@ class ChorzyAlertCard extends HTMLElement {
         }
 
         if (hass) {
+            console.log({hass})
             this.processConfig(hass);
         } else {
             console.log("no hass, wait for next update")
