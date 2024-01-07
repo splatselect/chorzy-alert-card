@@ -1,12 +1,15 @@
 const stylesHtml = `
 <style>
-.alert-container {
+.cac-alert-container {
   display: flex;
   flex-direction: column;
-  gap: 1px; /* Adds space between the alerts */
+  gap: 0px; /* Adds space between the alerts */
 }
+.cac-alert-container.with-alerts {
+    gap: 1px; /* Adds space between the alerts */
+  }
 
-.custom-alert {
+.cac-custom-alert {
   display: flex;
   align-items: center;
   justify-content: space-between; /* Add this line */
@@ -19,11 +22,8 @@ const stylesHtml = `
   margin-bottom: 2px; /* Spacing between each alert */
 }
 
-.custom-alert.alert-info {
-  border: 1px solid #b8daff; /* Light blue border */
-}
 
-.icon-wrapper {
+.cac-icon-wrapper {
   display: inline-block;
   margin-right: 8px; /* Adjust the space between the icon and the text */
   height: 18px; /* Adjust the icon size */
@@ -32,11 +32,11 @@ const stylesHtml = `
   transform: translateY(-2px); /* Move the icon up by 2 pixels */
 }
 
-.icon-wrapper ha-icon {
+.cac-icon-wrapper ha-icon {
   height: 100%;
   width: 100%;
 }
-.last-complete {
+.cac-last-complete {
   float: right;
   font-size: 9px;
 }
@@ -69,7 +69,7 @@ class ChorzyAlertCard extends HTMLElement {
 
     initializeContent() {
         this.content = document.createElement('div');
-        this.content.classList.add('alert-container');
+        this.content.classList.add('cac-alert-container');
         this.appendChild(this.content);
         this.previousEntityStates = {};
     }
@@ -172,9 +172,9 @@ class ChorzyAlertCard extends HTMLElement {
             let textStyle = `color: ${chore.textColor || this.processedConfig.defaultTextColor};`; // Add this line for text color
 
             return `
-                <div class="custom-alert alert-info" style="${alertStyle}">
+                <div class="cac-custom-alert alert-info" style="${alertStyle}">
                   <div style="${textStyle}">  <!-- Apply textStyle here -->
-                    <span class="icon-wrapper">${this.getIcon(icon)}</span>
+                    <span class="cac-icon-wrapper">${this.getIcon(icon)}</span>
                     <span>${text}</span>
                   </div>
                 </div>
@@ -183,6 +183,12 @@ class ChorzyAlertCard extends HTMLElement {
 
         this.content.innerHTML = alertsHtml;
         this.content.innerHTML += this.getCommonStyles();
+
+        if (chores.length > 0) {
+            this.content.classList.add('with-alerts');
+          } else {
+            this.content.classList.remove('with-alerts');
+          }
     }
     getIcon(icon) {
         return `<ha-icon icon="${icon}"></ha-icon>`;
